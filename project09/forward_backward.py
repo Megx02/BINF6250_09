@@ -1,11 +1,17 @@
 import math
 import numpy as np
-from viterbi_hmm import HMM
+from viterbi_hmm import *
+from pprint import pprint
 
 
 class ForwardBackward(HMM):
+    """
+    Implementation of the Forward-Backward algorithm.
+    """
 
     def forward(self, observation_sequence):
+        """ Computes forward probabilities for a given observation sequence. """
+
         n = len(observation_sequence)
         if n == 0:
             return [], []
@@ -21,11 +27,18 @@ class ForwardBackward(HMM):
         for t in range(1, n):
             obs = observation_sequence[t]
             for current_state in self.states:
+
                 # Initialize an empty list to store the values that need to be added for the current observation
                 values = []
+
                 for prev_state in self.states:
-                    # Probability in matrix at t-1 for previous state + Transition probability of previous state to current state + Emission probability of current observation at current state
-                    values.append(forward_matrix[prev_state][t-1] + self.log_transition[prev_state][current_state] + self.log_emission[current_state].get(obs, float("-inf")))
+
+                    # Probability in matrix at t-1 for previous state + 
+                    # transition probability of previous state to current state + 
+                    # emission probability of current observation at current state
+                    values.append(forward_matrix[prev_state][t-1] + 
+                                  self.log_transition[prev_state][current_state] + 
+                                  self.log_emission[current_state].get(obs, float("-inf")))
                 
                 # log-sum-exp to add probabilities safely since the probabilities are in log-space
                 forward_matrix[current_state][t] = np.logaddexp.reduce(values)
@@ -38,6 +51,8 @@ class ForwardBackward(HMM):
     
 
     def backward(self, observation_sequence):
+        """ Computes the backwards probabilities of a given observation sequence. """
+
         n = len(observation_sequence)
         if n == 0:
             return [], []
@@ -54,16 +69,27 @@ class ForwardBackward(HMM):
         for t in range(n-2, -1, -1):
             next_obs = observation_sequence[t+1]
             for current_state in self.states:
+
                 # Initialize an empty list to store the values that need to be added for the current observation
                 values = []
+
                 for next_state in self.states:
-                    # Probability in matrix at t+1 for next state + Transition probability from current state to next state + Emission probability of next observation at next state
-                    values.append(backward_matrix[next_state][t+1] + self.log_transition[current_state][next_state] + self.log_emission[next_state].get(next_obs, float("-inf")))
+
+                    # Probability in matrix at t+1 for next state + 
+                    # transition probability from current state to next state + 
+                    # emission probability of next observation at next state
+                    values.append(backward_matrix[next_state][t+1] + 
+                                  self.log_transition[current_state][next_state] + 
+                                  self.log_emission[next_state].get(next_obs, float("-inf")))
+                    
                 # log-sum-exp to add probabilities safely since the probabilities are in log-space
                 backward_matrix[current_state][t] = np.logaddexp.reduce(values)
         
         # Add initial probability and emission probability for observation[0] to get final probabilities for each state
-        final_values = [(backward_matrix[s][0] + self.log_emission[s].get(observation_sequence[0], float("-inf")) + self.log_initial[s]) for s in self.states]
+        final_values = [(backward_matrix[s][0] + 
+                         self.log_emission[s].get(observation_sequence[0], float("-inf")) + 
+                         self.log_initial[s]) for s in self.states]
+        
         # Add final probabilities (using log-sum-exp) to get total log probability
         total_backward_prob = np.logaddexp.reduce(final_values)
 

@@ -75,16 +75,18 @@ Class Forwardbackward(HMM):
 ```
 
 # Successes
-Description of the team's learning points
+* We were successfully able to use our Object-Oriented Programming (OOP) architecture from Project 08, making the integration of the new inference algorithms seamless
+* We implemented np.logaddexp, which provided a robust way to prevent numerical underflow when dealing with these sequences
+* A major success was verifying our implementation by comparing the total sequence probability from both the Forward and Backward passes, which yielded nearly identical results as required.
 
 # Struggles
-One of the main challenges we faced was working consistently in log-space. It was sometimes confusing to keep track of when values needed to be in log space and when they needed to be in normal space. This was especially confusing when we initially discussed summing up the probabilities of an observation across all states, but the use of `np.logaddexp` helped simplify the process. 
+* One of the main challenges we faced was working consistently in log-space. It was sometimes confusing to keep track of when values needed to be in log space and when they needed to be in normal space. This was especially confusing when we initially discussed summing up the probabilities of an observation across all states, but the use of `np.logaddexp` helped simplify the process. 
 
-Another minor difficulty we had was coding the backward algorithm, although conceptually it was easy to understand, we did get a little confused about which probabilities needed to be added while we were coding.
+* Another minor difficulty we had was coding the backward algorithm, although conceptually it was easy to understand, we did get a little confused about which probabilities needed to be added while we were coding.
 
 # Personal Reflections
 ## Group Leader
-Group leader's reflection on the project
+Fardina Tabassum - Overall this project was a bit more straightforward to start as we had classes made from the previous project to work with. I was initially confused if we were supposed to do posterior decoding or forward-backward algorithm for this project but then we quickly got that sorted out. The hardest part was ensuring that our data structures remained flexible enough to handle any number of states or symbols, as the instructions warned us to make no assumptions about the model's scale. It was also nice to see that we could verify our algorithms by seeing if our Forward and Backward sequence likelihoods matched. 
 
 ## Other member
 Connor Crawford - Given the similarity of this project to the last project we did with the Viterbi algorithm, developing the pseudocode and grasping the conceptual portion of the forward backward algorithm felt relatively smooth. Especially where our group had established an HMM class structure previously to build off. One of the most challenging parts for me was determining how to sum increasingly small probabilites in a stable manner. We had to be careful when dealing with the sums in probability space because you'd quickly run into a underflow error, conversely, you couldn't just add log values because that would be mathematically incorrect. Additionally working backwards over the matrix to get marginal probabilities in the backward algorithm was a little bit awkward, but since we were doing the same thing we already implemented in the forward algorithm it wasn't too hard to figure out.

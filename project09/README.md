@@ -78,6 +78,7 @@ Description of the team's learning points
 
 # Struggles
 One of the main challenges we faced was working consistently in log-space. It was sometimes confusing to keep track of when values needed to be in log space and when they needed to be in normal space. This was especially confusing when we initially discussed summing up the probabilities of an observation across all states, but the use of `np.logaddexp` helped simplify the process. 
+Another minor difficulty we had was coding the backward algorithm, although conceptually it was easy to understand, we did get a little confused about which probabilities needed to be added while we were coding.
 
 # Personal Reflections
 ## Group Leader

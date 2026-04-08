@@ -1,5 +1,6 @@
 # Introduction
-Description of the project
+This project focuses on implementing Forward, Backward, and Forward-Backward algorithms, which are fundamental to the Hidden Markov Model (HMM). While Project 08 focused on finding the single most likely path via Viterbi, Project 09 shifts to calculating sequence likelihoods and posterior marginal probabilities. This implementation provides hands-on experience in determining the probability of being in each hidden state at each position given the entire observation sequence, which is critical for biological sequence analysis and probabilistic inference.
+
 
 # Pseudocode
 Put pseudocode in this box:
